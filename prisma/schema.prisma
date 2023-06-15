@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  MALE
+  GEMALE
+  OTHER
+}
+
+enum Role {
+  SYSTEM
+  ADMIN
+  USER
+  COLLECTOR
+  DYCOLLECTOR
+  ATP
+  HEADCLERK
+  CITYSURVEY
+  COURTCLERK
+  LDC
+  SUPTD
+}
+
+enum QueryType {
+  NONE
+  IntraDepartment
+  InterDepartment
+  PublicApplicant
+}
+
+enum Status {
+  NONE
+  INACTIVE
+  ACTIVE
+}
+
+model user {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  password     String?
+  mobile       String?   @unique
+  email        String?   @unique
+  gender       Gender?
+  dob          DateTime?
+  role         Role?
+  created_at   DateTime  @default(now())
+  created_by   Int?
+  suspended_at DateTime?
+  suspended_by Int?
+  updated_at   DateTime  @updatedAt
+  updated_by   Int?
+  deleted_at   DateTime?
+  deleted_by   Int?
+  formUser     query[]   @relation("formUser")
+  toUser       query[]   @relation("toUser")
+}
+
+model query {
+  id              Int        @id @default(autoincrement())
+  stageId         Int?
+  formRefId       Int?
+  retFormActionID Int?
+  formUser        user?      @relation("formUser", fields: [formUserId], references: [id])
+  formUserId      Int?
+  toUser          user?      @relation("toUser", fields: [toUserId], references: [id])
+  toUserId        Int?
+  queryType       QueryType?
+  remarkComment   String?
+  documentUrl     String?
+  queryStatus     Status
+  created_at      DateTime   @default(now())
+  created_by      Int?
+  updated_at      DateTime   @updatedAt
+  updated_by      Int?
+  deleted_at      DateTime?
+  deleted_by      Int?
+}
+
+model sp {
+  id                   Int     @id @default(autoincrement())
+  name                 String?
+  mobileNo             String?
+  email                String?
+  applicantFullAddress String?
+  surveyHissaNo        String?
+  landAreaSqrMtr       String?
+  illegalSqMtr         String?
+  stageId              Int?
+  formRefId            Int?
+}
