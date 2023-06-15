@@ -15,7 +15,7 @@ require("dotenv");
 const user_1 = require("./routers/user");
 const query_1 = require("./routers/query");
 const sp_1 = require("./routers/sp");
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5563;
 const app = (0, express_1.default)();
 //middlewhare
 app.use(express_1.default.json());

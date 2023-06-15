@@ -10,7 +10,7 @@ import { user } from "./routers/user";
 import { query } from "./routers/query";
 import { sp } from "./routers/sp";
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5563;
 
 const app = express();
 //middlewhare
